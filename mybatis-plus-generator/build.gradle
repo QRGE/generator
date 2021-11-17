@@ -3,7 +3,14 @@ dependencies {
     implementation "${lib.velocity}"
     implementation "${lib.freemarker}"
     implementation "${lib.beetl}"
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.27'
+    implementation group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: '3.4.3.4'
+    implementation group: 'cn.hutool', name: 'hutool-all', version: '5.7.16'
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.3.7.RELEASE'
+    implementation group: 'org.freemarker', name: 'freemarker', version: '2.3.31'
 
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
     compileOnly "org.jetbrains:annotations:22.0.0"
     testImplementation "${lib.sqlserver}"
     testImplementation "${lib.postgresql}"
