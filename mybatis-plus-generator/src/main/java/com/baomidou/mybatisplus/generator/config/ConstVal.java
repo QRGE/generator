@@ -21,9 +21,6 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * 定义常量
- *
- * @author YangHu, tangguo, hubin
- * @since 2016-08-31
  */
 public interface ConstVal {
 
@@ -37,6 +34,7 @@ public interface ConstVal {
     String CONTROLLER = "Controller";
     String OTHER = "Other";
     String PARENT = "Parent";
+    String DTO = "Dto";
 
     String JAVA_TMPDIR = "java.io.tmpdir";
     String UTF8 = StandardCharsets.UTF_8.name();
@@ -80,6 +78,11 @@ public interface ConstVal {
      * ServiceImpl模板路径
      */
     String TEMPLATE_SERVICE_IMPL = "/templates/serviceImpl.java";
+
+    /**
+     * dto 模版路径
+     */
+    String TEMPLATE_DTO = "/templates/dto.java";
 
     String VM_LOAD_PATH_KEY = "file.resource.loader.class";
     String VM_LOAD_PATH_VALUE = "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader";

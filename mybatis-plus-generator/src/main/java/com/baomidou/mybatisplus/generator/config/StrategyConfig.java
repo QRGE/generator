@@ -121,6 +121,8 @@ public class StrategyConfig {
 
     private final Service.Builder serviceBuilder = new Service.Builder(this);
 
+    private final Dto.Builder dtoBuilder = new Dto.Builder(this);
+
     private Entity entity;
 
     private Controller controller;
@@ -129,11 +131,11 @@ public class StrategyConfig {
 
     private Service service;
 
+    private Dto dto;
+
     /**
      * 实体配置构建者
-     *
      * @return 实体配置构建者
-     * @since 3.5.0
      */
     @NotNull
     public Entity.Builder entityBuilder() {
@@ -142,9 +144,7 @@ public class StrategyConfig {
 
     /**
      * 实体配置
-     *
      * @return 实体配置
-     * @since 3.5.0
      */
     @NotNull
     public Entity entity() {
@@ -155,10 +155,29 @@ public class StrategyConfig {
     }
 
     /**
+     * dto 配置构建者
+     * @return dto 配置构建者
+     */
+    @NotNull
+    public Dto.Builder dtoBuilder() {
+        return dtoBuilder;
+    }
+
+    /**
+     * dto配置
+     * @return dto 配置
+     */
+    @NotNull
+    public Dto dto() {
+        if (dto == null) {
+            this.dto = dtoBuilder.get();
+        }
+        return dto;
+    }
+
+    /**
      * 控制器配置构建者
-     *
      * @return 控制器配置构建者
-     * @since 3.5.0
      */
     @NotNull
     public Controller.Builder controllerBuilder() {
@@ -167,9 +186,7 @@ public class StrategyConfig {
 
     /**
      * 控制器配置
-     *
      * @return 控制器配置
-     * @since 3.5.0
      */
     @NotNull
     public Controller controller() {
@@ -181,9 +198,7 @@ public class StrategyConfig {
 
     /**
      * Mapper配置构建者
-     *
      * @return Mapper配置构建者
-     * @since 3.5.0
      */
     @NotNull
     public Mapper.Builder mapperBuilder() {
@@ -367,9 +382,6 @@ public class StrategyConfig {
 
     /**
      * 策略配置构建者
-     *
-     * @author nieqiurong 2020/10/11.
-     * @since 3.5.0
      */
     public static class Builder extends BaseBuilder {
 
@@ -382,9 +394,6 @@ public class StrategyConfig {
 
         /**
          * 开启大写命名
-         *
-         * @return this
-         * @since 3.5.0
          */
         public Builder enableCapitalMode() {
             this.strategyConfig.isCapitalMode = true;
@@ -393,9 +402,6 @@ public class StrategyConfig {
 
         /**
          * 开启跳过视图
-         *
-         * @return this
-         * @since 3.5.0
          */
         public Builder enableSkipView() {
             this.strategyConfig.skipView = true;
@@ -404,9 +410,6 @@ public class StrategyConfig {
 
         /**
          * 禁用sql过滤
-         *
-         * @return this
-         * @since 3.5.0
          */
         public Builder disableSqlFilter() {
             this.strategyConfig.enableSqlFilter = false;
@@ -415,9 +418,6 @@ public class StrategyConfig {
 
         /**
          * 启用 schema
-         *
-         * @return this
-         * @since 3.5.1
          */
         public Builder enableSchema() {
             this.strategyConfig.enableSchema = true;
@@ -426,10 +426,7 @@ public class StrategyConfig {
 
         /**
          * 增加过滤表前缀
-         *
          * @param tablePrefix 过滤表前缀
-         * @return this
-         * @since 3.5.0
          */
         public Builder addTablePrefix(@NotNull String... tablePrefix) {
             return addTablePrefix(Arrays.asList(tablePrefix));
@@ -442,10 +439,7 @@ public class StrategyConfig {
 
         /**
          * 增加过滤表后缀
-         *
          * @param tableSuffix 过滤表后缀
-         * @return this
-         * @since 3.5.1
          */
         public Builder addTableSuffix(String... tableSuffix) {
             return addTableSuffix(Arrays.asList(tableSuffix));
@@ -458,10 +452,7 @@ public class StrategyConfig {
 
         /**
          * 增加过滤字段前缀
-         *
          * @param fieldPrefix 过滤字段前缀
-         * @return this
-         * @since 3.5.0
          */
         public Builder addFieldPrefix(@NotNull String... fieldPrefix) {
             return addFieldPrefix(Arrays.asList(fieldPrefix));
@@ -474,10 +465,7 @@ public class StrategyConfig {
 
         /**
          * 增加过滤字段后缀
-         *
          * @param fieldSuffix 过滤字段后缀
-         * @return this
-         * @since 3.5.1
          */
         public Builder addFieldSuffix(@NotNull String... fieldSuffix) {
             return addFieldSuffix(Arrays.asList(fieldSuffix));
@@ -490,10 +478,7 @@ public class StrategyConfig {
 
         /**
          * 增加包含的表名
-         *
          * @param include 包含表
-         * @return this
-         * @since 3.5.0
          */
         public Builder addInclude(@NotNull String... include) {
             this.strategyConfig.include.addAll(Arrays.asList(include));
@@ -507,10 +492,7 @@ public class StrategyConfig {
 
         /**
          * 增加排除表
-         *
          * @param exclude 排除表
-         * @return this
-         * @since 3.5.0
          */
         public Builder addExclude(@NotNull String... exclude) {
             return addExclude(Arrays.asList(exclude));

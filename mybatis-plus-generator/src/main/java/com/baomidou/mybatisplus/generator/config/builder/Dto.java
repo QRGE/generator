@@ -23,13 +23,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 实体属性配置
+ * 实体DTO配置
  */
-public class Entity implements ITemplate {
+public class Dto implements ITemplate {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(Entity.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(Dto.class);
 
-    private Entity() {
+    private Dto() {
     }
 
     /**
@@ -38,47 +38,41 @@ public class Entity implements ITemplate {
     private INameConvert nameConvert;
 
     /**
-     * 自定义继承的Entity类全称，带包名
+     * 自定义继承的Dto类全称，带包名
      */
     private String superClass;
 
     /**
-     * 自定义基础的Entity类，公共字段
+     * 自定义基础的Dto类，公共字段
      */
-    private final Set<String> superEntityColumns = new HashSet<>();
+    private final Set<String> superDtoColumns = new HashSet<>();
 
     /**
      * 自定义忽略字段
-     * https://github.com/baomidou/generator/issues/46
      */
     private final Set<String> ignoreColumns = new HashSet<>();
 
     /**
-     * 实体是否生成 serialVersionUID
+     * 是否生成 serialVersionUID
      */
     private boolean serialVersionUID = true;
 
     /**
-     * 【实体】是否生成字段常量（默认 false）<br>
-     * -----------------------------------<br>
-     * public static final String ID = "test_id";
+     * 是否生成字段常量（默认 false）
      */
     private boolean columnConstant;
 
     /**
-     * 【实体】是否为链式模型（默认 false）<br>
-     * -----------------------------------<br>
-     * public User setName(String name) { this.name = name; return this; }
+     * 是否为链式模型（默认 false）
      *
      * @since 3.3.2
      */
     private boolean chain;
 
     /**
-     * 【实体】是否为lombok模型（默认 false）<br>
-     * <a href="https://projectlombok.org/">document</a>
+     * 是否为lombok模型, 默认为true
      */
-    private boolean lombok;
+    private boolean lombok = true;
 
     /**
      * Boolean类型字段是否移除is前缀（默认 false）<br>
@@ -165,7 +159,7 @@ public class Entity implements ITemplate {
      */
     public void convertSuperEntityColumns(Class<?> clazz) {
         List<Field> fields = TableInfoHelper.getAllFields(clazz);
-        this.superEntityColumns.addAll(fields.stream().map(field -> {
+        this.superDtoColumns.addAll(fields.stream().map(field -> {
             TableId tableId = field.getAnnotation(TableId.class);
             if (tableId != null && StringUtils.isNotBlank(tableId.value())) {
                 return tableId.value();
@@ -196,7 +190,7 @@ public class Entity implements ITemplate {
      */
     public boolean matchSuperEntityColumns(String fieldName) {
         // 公共字段判断忽略大小写【 部分数据库大小写不敏感 】
-        return superEntityColumns.stream().anyMatch(e -> e.equalsIgnoreCase(fieldName));
+        return superDtoColumns.stream().anyMatch(e -> e.equalsIgnoreCase(fieldName));
     }
 
     /**
@@ -220,8 +214,8 @@ public class Entity implements ITemplate {
         return superClass;
     }
 
-    public Set<String> getSuperEntityColumns() {
-        return this.superEntityColumns;
+    public Set<String> getSuperDtoColumns() {
+        return this.superDtoColumns;
     }
 
     public boolean isSerialVersionUID() {
@@ -310,13 +304,16 @@ public class Entity implements ITemplate {
         return data;
     }
 
+    /**
+     * 构造类
+     */
     public static class Builder extends BaseBuilder {
 
-        private final Entity entity = new Entity();
+        private final Dto dto = new Dto();
 
         public Builder(StrategyConfig strategyConfig) {
             super(strategyConfig);
-            this.entity.nameConvert = new INameConvert.DefaultNameConvert(strategyConfig);
+            this.dto.nameConvert = new INameConvert.DefaultNameConvert(strategyConfig);
         }
 
         /**
@@ -326,12 +323,12 @@ public class Entity implements ITemplate {
          * @return this
          */
         public Builder nameConvert(INameConvert nameConvert) {
-            this.entity.nameConvert = nameConvert;
+            this.dto.nameConvert = nameConvert;
             return this;
         }
 
         /**
-         * 自定义继承的Entity类全称
+         * 自定义继承的Dto类全称
          *
          * @param clazz 类
          * @return this
@@ -347,7 +344,7 @@ public class Entity implements ITemplate {
          * @return this
          */
         public Builder superClass(String superEntityClass) {
-            this.entity.superClass = superEntityClass;
+            this.dto.superClass = superEntityClass;
             return this;
         }
 
@@ -358,7 +355,7 @@ public class Entity implements ITemplate {
          * @since 3.5.0
          */
         public Builder disableSerialVersionUID() {
-            this.entity.serialVersionUID = false;
+            this.dto.serialVersionUID = false;
             return this;
         }
 
@@ -369,7 +366,7 @@ public class Entity implements ITemplate {
          * @since 3.5.0
          */
         public Builder enableColumnConstant() {
-            this.entity.columnConstant = true;
+            this.dto.columnConstant = true;
             return this;
         }
 
@@ -380,18 +377,17 @@ public class Entity implements ITemplate {
          * @since 3.5.0
          */
         public Builder enableChainModel() {
-            this.entity.chain = true;
+            this.dto.chain = true;
             return this;
         }
 
         /**
-         * 开启lombok模型
+         * 关闭lombok模型
          *
          * @return this
-         * @since 3.5.0
          */
-        public Builder enableLombok() {
-            this.entity.lombok = true;
+        public Builder disableLombok() {
+            this.dto.lombok = false;
             return this;
         }
 
@@ -399,10 +395,9 @@ public class Entity implements ITemplate {
          * 开启Boolean类型字段移除is前缀
          *
          * @return this
-         * @since 3.5.0
          */
         public Builder enableRemoveIsPrefix() {
-            this.entity.booleanColumnRemoveIsPrefix = true;
+            this.dto.booleanColumnRemoveIsPrefix = true;
             return this;
         }
 
@@ -410,10 +405,9 @@ public class Entity implements ITemplate {
          * 开启生成实体时生成字段注解
          *
          * @return this
-         * @since 3.5.0
          */
         public Builder enableTableFieldAnnotation() {
-            this.entity.tableFieldAnnotationEnable = true;
+            this.dto.tableFieldAnnotationEnable = true;
             return this;
         }
 
@@ -421,10 +415,9 @@ public class Entity implements ITemplate {
          * 开启 ActiveRecord 模式
          *
          * @return this
-         * @since 3.5.0
          */
         public Builder enableActiveRecord() {
-            this.entity.activeRecord = true;
+            this.dto.activeRecord = true;
             return this;
         }
 
@@ -435,7 +428,7 @@ public class Entity implements ITemplate {
          * @return this
          */
         public Builder versionColumnName(String versionColumnName) {
-            this.entity.versionColumnName = versionColumnName;
+            this.dto.versionColumnName = versionColumnName;
             return this;
         }
 
@@ -446,7 +439,7 @@ public class Entity implements ITemplate {
          * @return this
          */
         public Builder versionPropertyName(String versionPropertyName) {
-            this.entity.versionPropertyName = versionPropertyName;
+            this.dto.versionPropertyName = versionPropertyName;
             return this;
         }
 
@@ -457,7 +450,7 @@ public class Entity implements ITemplate {
          * @return this
          */
         public Builder logicDeleteColumnName(String logicDeleteColumnName) {
-            this.entity.logicDeleteColumnName = logicDeleteColumnName;
+            this.dto.logicDeleteColumnName = logicDeleteColumnName;
             return this;
         }
 
@@ -468,7 +461,7 @@ public class Entity implements ITemplate {
          * @return this
          */
         public Builder logicDeletePropertyName(String logicDeletePropertyName) {
-            this.entity.logicDeletePropertyName = logicDeletePropertyName;
+            this.dto.logicDeletePropertyName = logicDeletePropertyName;
             return this;
         }
 
@@ -479,7 +472,7 @@ public class Entity implements ITemplate {
          * @return this
          */
         public Builder naming(NamingStrategy namingStrategy) {
-            this.entity.naming = namingStrategy;
+            this.dto.naming = namingStrategy;
             return this;
         }
 
@@ -490,23 +483,28 @@ public class Entity implements ITemplate {
          * @return this
          */
         public Builder columnNaming(NamingStrategy namingStrategy) {
-            this.entity.columnNaming = namingStrategy;
+            this.dto.columnNaming = namingStrategy;
             return this;
         }
 
         /**
          * 添加父类公共字段
          *
-         * @param superEntityColumns 父类字段(数据库字段列名)
+         * @param superDtoColumns 父类字段(数据库字段列名)
          * @return this
          * @since 3.5.0
          */
-        public Builder addSuperEntityColumns(@NotNull String... superEntityColumns) {
-            return addSuperEntityColumns(Arrays.asList(superEntityColumns));
+        public Builder addSuperDtoColumns(@NotNull String... superDtoColumns) {
+            return addSuperDtoColumns(Arrays.asList(superDtoColumns));
         }
 
-        public Builder addSuperEntityColumns(@NotNull List<String> superEntityColumnList) {
-            this.entity.superEntityColumns.addAll(superEntityColumnList);
+        /**
+         * 添加父类的公共字段, 传参为列表
+         * @param superDtoColumnList 父类字段(数据库字段列名)
+         * @return this
+         */
+        public Builder addSuperDtoColumns(@NotNull List<String> superDtoColumnList) {
+            this.dto.superDtoColumns.addAll(superDtoColumnList);
             return this;
         }
 
@@ -522,7 +520,7 @@ public class Entity implements ITemplate {
         }
 
         public Builder addIgnoreColumns(@NotNull List<String> ignoreColumnList) {
-            this.entity.ignoreColumns.addAll(ignoreColumnList);
+            this.dto.ignoreColumns.addAll(ignoreColumnList);
             return this;
         }
 
@@ -545,7 +543,7 @@ public class Entity implements ITemplate {
          * @since 3.5.0
          */
         public Builder addTableFills(@NotNull List<IFill> tableFillList) {
-            this.entity.tableFillList.addAll(tableFillList);
+            this.dto.tableFillList.addAll(tableFillList);
             return this;
         }
 
@@ -554,10 +552,9 @@ public class Entity implements ITemplate {
          *
          * @param idType ID类型
          * @return this
-         * @since 3.5.0
          */
         public Builder idType(IdType idType) {
-            this.entity.idType = idType;
+            this.dto.idType = idType;
             return this;
         }
 
@@ -566,10 +563,9 @@ public class Entity implements ITemplate {
          *
          * @param converter 　转换处理
          * @return this
-         * @since 3.5.0
          */
         public Builder convertFileName(@NotNull ConverterFileName converter) {
-            this.entity.converterFileName = converter;
+            this.dto.converterFileName = converter;
             return this;
         }
 
@@ -578,22 +574,21 @@ public class Entity implements ITemplate {
          *
          * @param format 　格式
          * @return this
-         * @since 3.5.0
          */
         public Builder formatFileName(String format) {
             return convertFileName((entityName) -> String.format(format, entityName));
         }
 
-        public Entity get() {
-            String superClass = this.entity.superClass;
+        public Dto get() {
+            String superClass = this.dto.superClass;
             if (StringUtils.isNotBlank(superClass)) {
-                tryLoadClass(superClass).ifPresent(this.entity::convertSuperEntityColumns);
+                tryLoadClass(superClass).ifPresent(this.dto::convertSuperEntityColumns);
             } else {
-                if (!this.entity.superEntityColumns.isEmpty()) {
+                if (!this.dto.superDtoColumns.isEmpty()) {
                     LOGGER.warn("Forgot to set entity supper class ?");
                 }
             }
-            return this.entity;
+            return this.dto;
         }
 
         private Optional<Class<?>> tryLoadClass(String className) {

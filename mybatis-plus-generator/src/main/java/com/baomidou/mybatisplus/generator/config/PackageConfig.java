@@ -1,18 +1,3 @@
-/*
- * Copyright (c) 2011-2021, baomidou (jobob@qq.com).
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
 package com.baomidou.mybatisplus.generator.config;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
@@ -25,9 +10,6 @@ import java.util.Map;
 
 /**
  * 包相关的配置项
- *
- * @author YangHu, tangguo, hubin
- * @since 2016-08-30
  */
 public class PackageConfig {
 
@@ -47,7 +29,7 @@ public class PackageConfig {
     /**
      * Entity包名
      */
-    private String entity = "entity";
+    private String entity = "entity.po";
 
     /**
      * Service包名
@@ -73,6 +55,11 @@ public class PackageConfig {
      * Controller包名
      */
     private String controller = "controller";
+
+    /**
+     * dto 包名
+     */
+    private String dto = "entity.dto";
 
     /**
      * Other包名
@@ -131,6 +118,7 @@ public class PackageConfig {
             packageInfo.put(ConstVal.SERVICE_IMPL, this.joinPackage(this.getServiceImpl()));
             packageInfo.put(ConstVal.CONTROLLER, this.joinPackage(this.getController()));
             packageInfo.put(ConstVal.OTHER, this.joinPackage(this.getOther()));
+            packageInfo.put(ConstVal.DTO, this.joinPackage(this.getDto()));
             packageInfo.put(ConstVal.PARENT, this.getParent());
         }
         return Collections.unmodifiableMap(this.packageInfo);
@@ -179,15 +167,14 @@ public class PackageConfig {
         return other;
     }
 
+    public String getDto() { return dto; }
+
     public Map<OutputFile, String> getPathInfo() {
         return pathInfo;
     }
 
     /**
      * 构建者
-     *
-     * @author nieqiurong
-     * @since 3.5.0
      */
     public static class Builder implements IConfigBuilder<PackageConfig> {
 
@@ -205,7 +192,6 @@ public class PackageConfig {
 
         /**
          * 指定父包名
-         *
          * @param parent 父包名
          * @return this
          */
@@ -216,7 +202,6 @@ public class PackageConfig {
 
         /**
          * 指定模块名称
-         *
          * @param moduleName 模块名
          * @return this
          */
@@ -227,7 +212,6 @@ public class PackageConfig {
 
         /**
          * 指定实体包名
-         *
          * @param entity 实体包名
          * @return this
          */
@@ -238,7 +222,6 @@ public class PackageConfig {
 
         /**
          * 指定service接口包名
-         *
          * @param service service包名
          * @return this
          */
@@ -249,7 +232,6 @@ public class PackageConfig {
 
         /**
          * service实现类包名
-         *
          * @param serviceImpl service实现类包名
          * @return this
          */
@@ -260,7 +242,6 @@ public class PackageConfig {
 
         /**
          * 指定mapper接口包名
-         *
          * @param mapper mapper包名
          * @return this
          */
@@ -271,7 +252,6 @@ public class PackageConfig {
 
         /**
          * 指定xml包名
-         *
          * @param xml xml包名
          * @return this
          */
@@ -282,7 +262,6 @@ public class PackageConfig {
 
         /**
          * 指定控制器包名
-         *
          * @param controller 控制器包名
          * @return this
          */
@@ -292,8 +271,17 @@ public class PackageConfig {
         }
 
         /**
+         * 指定dto包名
+         * @param dto dto包名
+         * @return this
+         */
+        public Builder dto(@NotNull String dto) {
+            this.packageConfig.dto = dto;
+            return this;
+        }
+
+        /**
          * 指定自定义文件包名
-         *
          * @param other 自定义文件包名
          * @return this
          */
@@ -304,7 +292,6 @@ public class PackageConfig {
 
         /**
          * 路径配置信息
-         *
          * @param pathInfo 路径配置信息
          * @return this
          */
@@ -315,7 +302,6 @@ public class PackageConfig {
 
         /**
          * 连接父子包名
-         *
          * @param subPackage 子包名
          * @return 连接后的包名
          */

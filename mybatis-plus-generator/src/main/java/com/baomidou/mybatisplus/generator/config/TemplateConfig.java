@@ -66,6 +66,11 @@ public class TemplateConfig {
     private String serviceImpl;
 
     /**
+     * 设置Dto模版路径
+     */
+    private String dto;
+
+    /**
      * 是否禁用实体模板（默认 false）
      */
     private boolean disableEntity;
@@ -79,6 +84,7 @@ public class TemplateConfig {
         this.controller = ConstVal.TEMPLATE_CONTROLLER;
         this.mapper = ConstVal.TEMPLATE_MAPPER;
         this.xml = ConstVal.TEMPLATE_XML;
+        this.dto = ConstVal.TEMPLATE_DTO;
         this.service = ConstVal.TEMPLATE_SERVICE;
         this.serviceImpl = ConstVal.TEMPLATE_SERVICE_IMPL;
     }
@@ -140,8 +146,11 @@ public class TemplateConfig {
                     case SERVICE:
                         this.service = null;
                         break;
-                    case SERVICEIMPL:
+                    case SERVICE_IMPL:
                         this.serviceImpl = null;
+                        break;
+                    case DTO:
+                        this.dto = null;
                         break;
                     default:
                 }
@@ -178,6 +187,10 @@ public class TemplateConfig {
 
     public String getController() {
         return controller;
+    }
+
+    public String getDto(){
+        return dto;
     }
 
     /**
@@ -292,6 +305,16 @@ public class TemplateConfig {
          */
         public Builder controller(@NotNull String controllerTemplate) {
             this.templateConfig.controller = controllerTemplate;
+            return this;
+        }
+
+        /**
+         * 设置dto模版路径
+         * @param dtoTemplate dto模版路径
+         * @return this
+         */
+        public Builder dto(@NotNull String dtoTemplate) {
+            this.templateConfig.dto = dtoTemplate;
             return this;
         }
 
