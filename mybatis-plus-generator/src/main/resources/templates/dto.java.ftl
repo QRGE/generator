@@ -34,16 +34,16 @@ import lombok.experimental.Accessors;
 @TableName("${schemaName}${table.name}")
 </#if>
 <#if swagger>
-@ApiModel(value = "${entity}对象", description = "${table.comment!}")
+@ApiModel(value = "${entity}数据传输对象")
 </#if>
 <#if superEntityClass??>
-public class ${entity} extends ${superEntityClass}<#if activeRecord><${entity}></#if> {
+public class ${entity}Info extends ${superEntityClass}<#if activeRecord><${entity}></#if> {
 <#elseif activeRecord>
-public class ${entity} extends Model<${entity}> {
+public class ${entity}Info extends Model<${entity}> {
 <#elseif entitySerialVersionUID>
-public class ${entity} implements Serializable {
+public class ${entity}Info implements Serializable {
 <#else>
-public class ${entity} {
+public class ${entity}Info {
 </#if>
 <#if entitySerialVersionUID>
 

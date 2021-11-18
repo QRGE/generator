@@ -63,8 +63,6 @@ public class Dto implements ITemplate {
 
     /**
      * 是否为链式模型（默认 false）
-     *
-     * @since 3.3.2
      */
     private boolean chain;
 
@@ -130,30 +128,26 @@ public class Dto implements ITemplate {
 
     /**
      * 开启 ActiveRecord 模式（默认 false）
-     *
-     * @since 3.5.0
      */
     private boolean activeRecord;
 
     /**
      * 指定生成的主键的ID类型
-     *
-     * @since 3.5.0
      */
     private IdType idType;
 
     /**
-     * 转换输出文件名称
-     *
-     * @since 3.5.0
+     * dto 文件名的后缀, 默认为Info
      */
-    private ConverterFileName converterFileName = (entityName -> entityName);
+    private String dtoNameSuffix = "Info";
 
     /**
-     * <p>
+     * 转换输出文件名称
+     */
+    private ConverterFileName converterFileName = (entityName -> entityName + dtoNameSuffix);
+
+    /**
      * 父类 Class 反射属性转换为公共字段
-     * </p>
-     *
      * @param clazz 实体父类 Class
      */
     public void convertSuperEntityColumns(Class<?> clazz) {
@@ -271,6 +265,14 @@ public class Dto implements ITemplate {
         return naming;
     }
 
+    public String getDtoNameSuffix() {
+        return dtoNameSuffix;
+    }
+
+    public void setDtoNameSuffix(String dtoNameSuffix) {
+        this.dtoNameSuffix = dtoNameSuffix;
+    }
+
     public boolean isActiveRecord() {
         return activeRecord;
     }
@@ -323,6 +325,14 @@ public class Dto implements ITemplate {
          */
         public Builder nameConvert(INameConvert nameConvert) {
             this.dto.nameConvert = nameConvert;
+            return this;
+        }
+
+        /**
+         * 设置 dto 名字的后缀, 默认为 Info
+         */
+        public Builder dtoNameSuffix(String suffix) {
+            this.dto.dtoNameSuffix = suffix;
             return this;
         }
 

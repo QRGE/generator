@@ -11,6 +11,8 @@ import lombok.experimental.Accessors;
     </#if>
 </#if>
 
+import java.util.Date;
+
 /**
  * <p>
  * ${table.comment!}
@@ -84,6 +86,12 @@ public class ${entity} {
     private ${field.propertyType} ${field.propertyName};
 </#list>
 <#------------  END 字段循环遍历  ---------->
+
+    private ${entity} init() {
+        isDel = 0;
+        createTime = new Date();
+        return this;
+    }
 
 <#if !entityLombokModel>
     <#list table.fields as field>

@@ -56,6 +56,7 @@ public class QRCodeGenerator {
                     .idType(IdType.AUTO)
                     .addTableFills(new Column("create_time", FieldFill.INSERT))
                     .addTableFills(new Column("update_time", FieldFill.INSERT_UPDATE))
+                    .addIgnoreColumns("test_ignore")
                 .mapperBuilder()
                     .enableBaseColumnList()
                     .enableBaseResultMap()

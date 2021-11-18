@@ -100,7 +100,7 @@ public abstract class AbstractTemplateEngine {
         if (StringUtils.isNotBlank(dtoName) && StringUtils.isNotBlank(dtoPath)) {
             getTemplateFilePath(TemplateConfig::getDto).ifPresent(dto -> {
                 // 路径 + dto名字 + 后缀(.java)
-                String dtoFile = String.format((dtoPath + File.separator + "%s" + suffixJavaOrKt()), dtoName);
+                String dtoFile = String.format((dtoPath + File.separator + "%s" +  suffixJavaOrKt()), dtoName);
                 outputFile(new File(dtoFile), objectMap, dto);
             });
         }

@@ -93,29 +93,21 @@ public class Entity implements ITemplate {
 
     /**
      * 乐观锁字段名称(数据库字段)
-     *
-     * @since 3.5.0
      */
     private String versionColumnName;
 
     /**
      * 乐观锁属性名称(实体字段)
-     *
-     * @since 3.5.0
      */
     private String versionPropertyName;
 
     /**
      * 逻辑删除字段名称(数据库字段)
-     *
-     * @since 3.5.0
      */
     private String logicDeleteColumnName;
 
     /**
      * 逻辑删除属性名称(实体字段)
-     *
-     * @since 3.5.0
      */
     private String logicDeletePropertyName;
 
