@@ -190,13 +190,16 @@ public final class FastAutoGenerator {
      * 模板引擎配置
      *
      * @param templateEngine 模板引擎
-     * @return
+     * @return this
      */
     public FastAutoGenerator templateEngine(AbstractTemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
         return this;
     }
 
+    /**
+     * 执行代码生成
+     */
     public void execute() {
         new AutoGenerator(this.dataSourceConfigBuilder.build())
             // 全局配置

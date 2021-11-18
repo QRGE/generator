@@ -75,10 +75,8 @@ public abstract class AbstractTemplateEngine {
 
     /**
      * 输出实体文件
-     *
      * @param tableInfo 表信息
      * @param objectMap 渲染数据
-     * @since 3.5.0
      */
     protected void outputEntity(@NotNull TableInfo tableInfo, @NotNull Map<String, Object> objectMap) {
         String entityName = tableInfo.getEntityName();
@@ -92,11 +90,27 @@ public abstract class AbstractTemplateEngine {
     }
 
     /**
+     * 输出 dto 文件
+     * @param tableInfo 表信息
+     * @param objectMap 渲染数据
+     */
+    protected void outputDto(@NotNull TableInfo tableInfo, @NotNull Map<String, Object> objectMap) {
+        String dtoName = tableInfo.getDtoName();
+        String dtoPath = getPathInfo(OutputFile.dto);
+        if (StringUtils.isNotBlank(dtoName) && StringUtils.isNotBlank(dtoPath)) {
+            getTemplateFilePath(TemplateConfig::getDto).ifPresent(dto -> {
+                // 路径 + dto名字 + 后缀(.java)
+                String dtoFile = String.format((dtoPath + File.separator + "%s" + suffixJavaOrKt()), dtoName);
+                outputFile(new File(dtoFile), objectMap, dto);
+            });
+        }
+    }
+
+    /**
      * 输出Mapper文件(含xml)
      *
      * @param tableInfo 表信息
      * @param objectMap 渲染数据
-     * @since 3.5.0
      */
     protected void outputMapper(@NotNull TableInfo tableInfo, @NotNull Map<String, Object> objectMap) {
         // MpMapper.java
@@ -237,8 +251,10 @@ public abstract class AbstractTemplateEngine {
                 outputMapper(tableInfo, objectMap);
                 // service
                 outputService(tableInfo, objectMap);
-                // MpController.java
+                // controller
                 outputController(tableInfo, objectMap);
+                // dto
+                outputDto(tableInfo, objectMap);
             });
         } catch (Exception e) {
             throw new RuntimeException("无法创建文件，请检查配置信息！", e);

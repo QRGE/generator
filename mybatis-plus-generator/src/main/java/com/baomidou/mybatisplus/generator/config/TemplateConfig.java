@@ -105,7 +105,7 @@ public class TemplateConfig {
      * 获取实体模板路径
      *
      * @param kotlin 是否kotlin
-     * @return 模板路径
+     * @return 实体模板路径
      */
     public String getEntity(boolean kotlin) {
         if (!this.disableEntity) {

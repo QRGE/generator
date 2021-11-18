@@ -29,8 +29,7 @@ public class Dto implements ITemplate {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(Dto.class);
 
-    private Dto() {
-    }
+    private Dto() {}
 
     /**
      * 名称转换

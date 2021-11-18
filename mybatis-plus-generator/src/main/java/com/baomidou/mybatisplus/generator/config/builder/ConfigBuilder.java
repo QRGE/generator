@@ -26,9 +26,6 @@ import java.util.regex.Pattern;
 
 /**
  * 配置汇总 传递给文件生成工具
- *
- * @author YangHu, tangguo, hubin, Juzi, lanjerry
- * @since 2016-08-30
  */
 public class ConfigBuilder {
 
@@ -86,9 +83,12 @@ public class ConfigBuilder {
      * @param templateConfig   模板配置
      * @param globalConfig     全局配置
      */
-    public ConfigBuilder(@Nullable PackageConfig packageConfig, @NotNull DataSourceConfig dataSourceConfig,
-                         @Nullable StrategyConfig strategyConfig, @Nullable TemplateConfig templateConfig,
-                         @Nullable GlobalConfig globalConfig, @Nullable InjectionConfig injectionConfig) {
+    public ConfigBuilder(@Nullable PackageConfig packageConfig,
+                         @NotNull DataSourceConfig dataSourceConfig,
+                         @Nullable StrategyConfig strategyConfig,
+                         @Nullable TemplateConfig templateConfig,
+                         @Nullable GlobalConfig globalConfig,
+                         @Nullable InjectionConfig injectionConfig) {
         this.dataSourceConfig = dataSourceConfig;
         this.strategyConfig = Optional.ofNullable(strategyConfig).orElseGet(() -> GeneratorBuilder.strategyConfig());
         this.globalConfig = Optional.ofNullable(globalConfig).orElseGet(() -> GeneratorBuilder.globalConfig());

@@ -79,6 +79,11 @@ public class TableInfo {
     private String mapperName;
 
     /**
+     * dto 名称
+     */
+    private String dtoName;
+
+    /**
      * xml名称
      */
     private String xmlName;
@@ -199,7 +204,7 @@ public class TableInfo {
      * 转换filed实体为 xml mapper 中的 base column 字符串信息
      */
     public String getFieldNames() {
-        //TODO 感觉这个也啥必要,不打算公开set方法了
+        // 感觉这个也啥必要,不打算公开set方法了
         if (StringUtils.isBlank(fieldNames)) {
             this.fieldNames = this.fields.stream().map(TableField::getColumnName).collect(Collectors.joining(", "));
         }
@@ -208,8 +213,6 @@ public class TableInfo {
 
     /**
      * 导包处理
-     *
-     * @since 3.5.0
      */
     public void importPackage() {
         String superEntity = entity.getSuperClass();
@@ -280,6 +283,7 @@ public class TableInfo {
         this.serviceName = strategyConfig.service().getConverterServiceFileName().convert(entityName);
         this.serviceImplName = strategyConfig.service().getConverterServiceImplFileName().convert(entityName);
         this.controllerName = strategyConfig.controller().getConverterFileName().convert(entityName);
+        this.dtoName = strategyConfig.dto().getConverterFileName().convert(entityName);
         this.importPackage();
     }
 
@@ -339,6 +343,14 @@ public class TableInfo {
 
     public String getControllerName() {
         return controllerName;
+    }
+
+    public String getDtoName() {
+        return dtoName;
+    }
+
+    public void setDtoName(String dtoName) {
+        this.dtoName = dtoName;
     }
 
     @NotNull

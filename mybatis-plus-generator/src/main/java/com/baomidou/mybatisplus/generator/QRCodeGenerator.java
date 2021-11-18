@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.baomidou.mybatisplus.generator.fill.Column;
-import com.baomidou.mybatisplus.generator.fill.Property;
 
 import static com.baomidou.mybatisplus.generator.config.Constant.*;
 
@@ -17,6 +16,7 @@ public class QRCodeGenerator {
 
     public static void main(String[] args) {
         FastAutoGenerator.create(URL, USERNAME, PASSWORD)
+            // 全局配置
             .globalConfig(builder -> builder
                 .author(AUTHOR)
                 .enableSwagger()
@@ -26,7 +26,7 @@ public class QRCodeGenerator {
                 .commentDate("yyyy-MM-dd HH:mm:ss")
                 .outputDir(OUTPUT_DIR)
             )
-            //  模版配置
+            // 模版配置
             .templateConfig(
                 builder -> builder
                     .entity("templates/entity.java")
@@ -37,13 +37,16 @@ public class QRCodeGenerator {
                     .serviceImpl("templates/serviceImpl.java")
                     .dto("templates/dto.java")
             )
+            // 包配置
             .packageConfig(builder -> builder
                 .parent(PARENT_PACKAGE)
                 .moduleName(FUNCTION_MODULE)
                 .entity("entity.po")
                 .dto("entity.dto")
             )
+            // 模版引擎配置
             .templateEngine(new FreemarkerTemplateEngine())
+            // 策略配置
             .strategyConfig(builder -> builder
                 .enableSkipView()
                 .entityBuilder()

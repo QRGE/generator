@@ -73,6 +73,7 @@ class PathInfoHandler {
         putPathInfo(templateConfig.getService(), OutputFile.service, ConstVal.SERVICE);
         putPathInfo(templateConfig.getServiceImpl(), OutputFile.serviceImpl, ConstVal.SERVICE_IMPL);
         putPathInfo(templateConfig.getController(), OutputFile.controller, ConstVal.CONTROLLER);
+        putPathInfo(templateConfig.getDto(), OutputFile.dto, ConstVal.DTO);
         putPathInfo(OutputFile.other, ConstVal.OTHER);
     }
 
