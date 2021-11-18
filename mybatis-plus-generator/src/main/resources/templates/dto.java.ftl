@@ -73,7 +73,6 @@ public class ${entity}Info {
     </#if>
 </#list>
 <#------------  END 字段循环遍历  ---------->
-
     public ${dto} parseFromPo(${entity} po) {
 <#list table.fields as field>
     <#if field.propertyName != "isDel" && field.propertyName != "createTime" && field.propertyName != "updateTime">
