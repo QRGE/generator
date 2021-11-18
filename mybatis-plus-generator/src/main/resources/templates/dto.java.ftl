@@ -1,5 +1,6 @@
-package ${package.Entity};
+package ${package.Dto};
 
+import ${package.Entity}.${entity};
 <#list table.importPackages as pkg>
 import ${pkg};
 </#list>
@@ -7,7 +8,7 @@ import ${pkg};
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 </#if>
-<#if entityLombokModel>
+<#if dtoLombokModel>
 import lombok.Getter;
 import lombok.Setter;
     <#if chainModel>
@@ -23,7 +24,7 @@ import lombok.experimental.Accessors;
  * @author ${author}
  * @since ${date}
  */
-<#if entityLombokModel>
+<#if dtoLombokModel>
 @Getter
 @Setter
     <#if chainModel>
@@ -45,7 +46,7 @@ public class ${entity}Info implements Serializable {
 <#else>
 public class ${entity}Info {
 </#if>
-<#if entitySerialVersionUID>
+<#if dtoSerialVersionUID>
 
     private static final long serialVersionUID = 1L;
 </#if>
@@ -96,7 +97,16 @@ public class ${entity}Info {
 </#list>
 <#------------  END 字段循环遍历  ---------->
 
-<#if !entityLombokModel>
+    public ${dto} parseFromPo(${entity} po) {
+<#list table.fields as field>
+    <#if field.propertyName != "isDel" && field.propertyName != "createTime" && field.propertyName != "updateTime">
+        ${field.propertyName} = po.get${field.propertyName?cap_first}();
+    </#if>
+</#list>
+        return this;
+    }
+
+<#if !dtoLombokModel>
     <#list table.fields as field>
         <#if field.propertyType == "boolean">
             <#assign getprefix="is"/>
@@ -120,7 +130,7 @@ public class ${entity}Info {
     </#list>
 </#if>
 
-<#if entityColumnConstant>
+<#if dtoColumnConstant>
     <#list table.fields as field>
     public static final String ${field.name?upper_case} = "${field.name}";
 
@@ -137,7 +147,7 @@ public class ${entity}Info {
     }
 
 </#if>
-<#if !entityLombokModel>
+<#if !dtoLombokModel>
     @Override
     public String toString() {
         return "${entity}{" +

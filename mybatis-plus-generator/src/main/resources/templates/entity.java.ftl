@@ -1,5 +1,6 @@
 package ${package.Entity};
 
+import ${package.Dto}.${dto};
 <#list table.importPackages as pkg>
 import ${pkg};
 </#list>
@@ -11,7 +12,6 @@ import lombok.experimental.Accessors;
     </#if>
 </#if>
 
-import java.util.Date;
 
 /**
  * <p>
@@ -90,6 +90,13 @@ public class ${entity} {
     private ${entity} init() {
         isDel = 0;
         createTime = new Date();
+        return this;
+    }
+
+    public ${entity} parseFromDto(${dto} dto) {
+<#list table.fields as field>
+        ${field.propertyName} = dto.get${field.propertyName?cap_first}();
+</#list>
         return this;
     }
 

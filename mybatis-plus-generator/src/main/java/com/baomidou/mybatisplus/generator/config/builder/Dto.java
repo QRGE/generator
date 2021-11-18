@@ -287,21 +287,24 @@ public class Dto implements ITemplate {
         return converterFileName;
     }
 
+    /**
+     * dto 层删除一些没必要的信息, 例如主键, 逻辑删除字段等
+     * @param tableInfo
+     * @return
+     */
     @Override
     @NotNull
     public Map<String, Object> renderData(@NotNull TableInfo tableInfo) {
         Map<String, Object> data = new HashMap<>();
-        data.put("idType", idType == null ? null : idType.toString());
-        data.put("logicDeleteFieldName", this.logicDeleteColumnName);
         data.put("versionFieldName", this.versionColumnName);
         data.put("activeRecord", this.activeRecord);
-        data.put("entitySerialVersionUID", this.serialVersionUID);
-        data.put("entityColumnConstant", this.columnConstant);
+        data.put("dtoSerialVersionUID", this.serialVersionUID);
+        data.put("dtoColumnConstant", this.columnConstant);
         data.put("entityBuilderModel", this.chain);
         data.put("chainModel", this.chain);
-        data.put("entityLombokModel", this.lombok);
+        data.put("dtoLombokModel", this.lombok);
         data.put("entityBooleanColumnRemoveIsPrefix", this.booleanColumnRemoveIsPrefix);
-        data.put("superEntityClass", ClassUtils.getSimpleName(this.superClass));
+        data.put("superDtoClass", ClassUtils.getSimpleName(this.superClass));
         return data;
     }
 

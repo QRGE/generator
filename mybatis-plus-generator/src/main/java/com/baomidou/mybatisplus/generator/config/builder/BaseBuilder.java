@@ -48,8 +48,9 @@ public class BaseBuilder implements IConfigBuilder<StrategyConfig> {
         return strategyConfig.mapperBuilder();
     }
 
+    @NotNull
     public Dto.Builder dtoBuilder() {
-        return null;
+        return strategyConfig.dtoBuilder();
     }
 
     @NotNull

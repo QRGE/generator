@@ -61,6 +61,8 @@ public class QRCodeGenerator {
                     .enableBaseColumnList()
                     .enableBaseResultMap()
                     .enableMapperAnnotation()
+                .dtoBuilder()
+                    .addIgnoreColumns("is_del", "create_time", "update_time")
                 .controllerBuilder()
                     .enableRestStyle()
             )

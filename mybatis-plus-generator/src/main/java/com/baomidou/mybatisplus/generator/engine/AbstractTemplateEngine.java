@@ -62,7 +62,6 @@ public abstract class AbstractTemplateEngine {
      * @param customFile 自定义配置模板文件信息
      * @param tableInfo  表信息
      * @param objectMap  渲染数据
-     * @since 3.5.1
      */
     protected void outputCustomFile(@NotNull Map<String, String> customFile, @NotNull TableInfo tableInfo, @NotNull Map<String, Object> objectMap) {
         String entityName = tableInfo.getEntityName();
@@ -75,6 +74,7 @@ public abstract class AbstractTemplateEngine {
 
     /**
      * 输出实体文件
+     *
      * @param tableInfo 表信息
      * @param objectMap 渲染数据
      */
@@ -91,6 +91,7 @@ public abstract class AbstractTemplateEngine {
 
     /**
      * 输出 dto 文件
+     *
      * @param tableInfo 表信息
      * @param objectMap 渲染数据
      */
@@ -137,7 +138,6 @@ public abstract class AbstractTemplateEngine {
      *
      * @param tableInfo 表信息
      * @param objectMap 渲染数据
-     * @since 3.5.0
      */
     protected void outputService(@NotNull TableInfo tableInfo, @NotNull Map<String, Object> objectMap) {
         // IMpService.java
@@ -164,7 +164,6 @@ public abstract class AbstractTemplateEngine {
      *
      * @param tableInfo 表信息
      * @param objectMap 渲染数据
-     * @since 3.5.0
      */
     protected void outputController(@NotNull TableInfo tableInfo, @NotNull Map<String, Object> objectMap) {
         // MpController.java
@@ -283,10 +282,9 @@ public abstract class AbstractTemplateEngine {
      * @param templatePath 模板文件
      * @param outputFile   文件生成的目录
      * @see #writer(Map, String, File)
-     * @deprecated 3.5.0
      */
     @Deprecated
-    public void writer(@NotNull Map<String, Object> objectMap, @NotNull String templatePath, @NotNull String outputFile) throws Exception {
+    public void writer(@NotNull Map<String, Object> objectMap, @NotNull String templatePath, @NotNull String outputFile) {
 
     }
 
@@ -297,7 +295,6 @@ public abstract class AbstractTemplateEngine {
      * @param templatePath 模板文件
      * @param outputFile   文件生成的目录
      * @throws Exception 异常
-     * @since 3.5.0
      */
     public void writer(@NotNull Map<String, Object> objectMap, @NotNull String templatePath, @NotNull File outputFile) throws Exception {
         this.writer(objectMap, templatePath, outputFile.getPath());
@@ -327,6 +324,7 @@ public abstract class AbstractTemplateEngine {
      * @param tableInfo 表信息对象
      * @return ignore
      */
+    // TODO 模版取的对象, 例如${package}等
     @NotNull
     public Map<String, Object> getObjectMap(@NotNull ConfigBuilder config, @NotNull TableInfo tableInfo) {
         StrategyConfig strategyConfig = config.getStrategyConfig();
@@ -338,6 +336,8 @@ public abstract class AbstractTemplateEngine {
         objectMap.putAll(serviceData);
         Map<String, Object> entityData = strategyConfig.entity().renderData(tableInfo);
         objectMap.putAll(entityData);
+        Map<String, Object> dtoData = strategyConfig.dto().renderData(tableInfo);
+        objectMap.putAll(dtoData);
         objectMap.put("config", config);
         objectMap.put("package", config.getPackageConfig().getPackageInfo());
         GlobalConfig globalConfig = config.getGlobalConfig();
@@ -358,6 +358,7 @@ public abstract class AbstractTemplateEngine {
         objectMap.put("schemaName", schemaName);
         objectMap.put("table", tableInfo);
         objectMap.put("entity", tableInfo.getEntityName());
+        objectMap.put("dto", tableInfo.getDtoName());
         return objectMap;
     }
 
