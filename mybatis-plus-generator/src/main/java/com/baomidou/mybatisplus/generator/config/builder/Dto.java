@@ -456,28 +456,6 @@ public class Dto implements ITemplate {
         }
 
         /**
-         * 逻辑删除数据库字段名称
-         *
-         * @param logicDeleteColumnName 逻辑删除字段名称
-         * @return this
-         */
-        public Builder logicDeleteColumnName(String logicDeleteColumnName) {
-            this.dto.logicDeleteColumnName = logicDeleteColumnName;
-            return this;
-        }
-
-        /**
-         * 逻辑删除实体属性名称
-         *
-         * @param logicDeletePropertyName 逻辑删除实体属性名称
-         * @return this
-         */
-        public Builder logicDeletePropertyName(String logicDeletePropertyName) {
-            this.dto.logicDeletePropertyName = logicDeletePropertyName;
-            return this;
-        }
-
-        /**
          * 数据库表映射到实体的命名策略
          *
          * @param namingStrategy 数据库表映射到实体的命名策略

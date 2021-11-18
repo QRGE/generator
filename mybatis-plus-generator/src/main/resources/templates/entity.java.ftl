@@ -95,7 +95,9 @@ public class ${entity} {
 
     public ${entity} parseFromDto(${dto} dto) {
 <#list table.fields as field>
+    <#if field.propertyName != "isDel" && field.propertyName != "createTime" && field.propertyName != "updateTime">
         ${field.propertyName} = dto.get${field.propertyName?cap_first}();
+    </#if>
 </#list>
         return this;
     }

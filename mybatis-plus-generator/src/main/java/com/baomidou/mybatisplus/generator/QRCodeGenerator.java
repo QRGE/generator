@@ -20,7 +20,6 @@ public class QRCodeGenerator {
             .globalConfig(builder -> builder
                 .author(AUTHOR)
                 .enableSwagger()
-                .fileOverride()
                 .dateType(DateType.ONLY_DATE)
                 .disableOpenDir()
                 .commentDate("yyyy-MM-dd HH:mm:ss")
@@ -62,6 +61,7 @@ public class QRCodeGenerator {
                     .enableBaseResultMap()
                     .enableMapperAnnotation()
                 .dtoBuilder()
+                    .enableTableFieldAnnotation()
                     .addIgnoreColumns("is_del", "create_time", "update_time")
                 .controllerBuilder()
                     .enableRestStyle()

@@ -8,7 +8,7 @@ import ${pkg};
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 </#if>
-<#if dtoLombokModel>
+<#if entityLombokModel>
 import lombok.Getter;
 import lombok.Setter;
     <#if chainModel>
@@ -24,15 +24,12 @@ import lombok.experimental.Accessors;
  * @author ${author}
  * @since ${date}
  */
-<#if dtoLombokModel>
+<#if entityLombokModel>
 @Getter
 @Setter
     <#if chainModel>
 @Accessors(chain = true)
     </#if>
-</#if>
-<#if table.convert>
-@TableName("${schemaName}${table.name}")
 </#if>
 <#if swagger>
 @ApiModel(value = "${entity}数据传输对象")
@@ -46,7 +43,7 @@ public class ${entity}Info implements Serializable {
 <#else>
 public class ${entity}Info {
 </#if>
-<#if dtoSerialVersionUID>
+<#if entitySerialVersionUID>
 
     private static final long serialVersionUID = 1L;
 </#if>
@@ -56,7 +53,10 @@ public class ${entity}Info {
         <#assign keyPropertyName="${field.propertyName}"/>
     </#if>
 
-    <#if field.comment!?length gt 0>
+    <#if field.comment!?length gt 0
+            && field.propertyName != "isDel"
+            && field.propertyName != "createTime"
+            && field.propertyName != "updateTime">
         <#if swagger>
     @ApiModelProperty("${field.comment}")
         <#else>
@@ -65,35 +65,12 @@ public class ${entity}Info {
      */
         </#if>
     </#if>
-    <#if field.keyFlag>
-        <#-- 主键 -->
-        <#if field.keyIdentityFlag>
-    @TableId(value = "${field.annotationColumnName}", type = IdType.AUTO)
-        <#elseif idType??>
-    @TableId(value = "${field.annotationColumnName}", type = IdType.${idType})
-        <#elseif field.convert>
-    @TableId("${field.annotationColumnName}")
-        </#if>
-        <#-- 普通字段 -->
-    <#elseif field.fill??>
-    <#-- -----   存在字段填充设置   ----->
-        <#if field.convert>
-    @TableField(value = "${field.annotationColumnName}", fill = FieldFill.${field.fill})
-        <#else>
-    @TableField(fill = FieldFill.${field.fill})
-        </#if>
-    <#elseif field.convert>
-    @TableField("${field.annotationColumnName}")
-    </#if>
-    <#-- 乐观锁注解 -->
-    <#if field.versionField>
-    @Version
-    </#if>
-    <#-- 逻辑删除注解 -->
-    <#if field.logicDeleteField>
-    @TableLogic
-    </#if>
+    <#--  暂时只能在模版里写死, 没找到哪里是忽略字段的地方  -->
+    <#if field.propertyName != "isDel"
+        && field.propertyName != "updateTime"
+        && field.propertyName != "createTime">
     private ${field.propertyType} ${field.propertyName};
+    </#if>
 </#list>
 <#------------  END 字段循环遍历  ---------->
 
@@ -106,7 +83,7 @@ public class ${entity}Info {
         return this;
     }
 
-<#if !dtoLombokModel>
+<#if !entityLombokModel>
     <#list table.fields as field>
         <#if field.propertyType == "boolean">
             <#assign getprefix="is"/>
@@ -130,7 +107,7 @@ public class ${entity}Info {
     </#list>
 </#if>
 
-<#if dtoColumnConstant>
+<#if entityColumnConstant>
     <#list table.fields as field>
     public static final String ${field.name?upper_case} = "${field.name}";
 
@@ -147,7 +124,7 @@ public class ${entity}Info {
     }
 
 </#if>
-<#if !dtoLombokModel>
+<#if !entityLombokModel>
     @Override
     public String toString() {
         return "${entity}{" +
