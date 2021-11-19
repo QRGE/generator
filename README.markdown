@@ -3,3 +3,7 @@
 - 个人理解 dto 即 po 去掉非必要的 mp 注解以及 is_del, create_time, update_time 等类似无需前端传参的字段
 - 以及两个类之间有互相转换的方法 parseFromDto(Po)
 - 路漫漫, 加油干, 还有好多东西都不会, 笑死🥶
+
+# 官方文档链接
+[官方文档](https://baomidou.com/)
+

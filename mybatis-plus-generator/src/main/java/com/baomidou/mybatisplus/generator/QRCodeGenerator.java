@@ -47,6 +47,7 @@ public class QRCodeGenerator {
             .templateEngine(new FreemarkerTemplateEngine())
             // 策略配置
             .strategyConfig(builder -> builder
+                .addInclude(TABLES.split(","))
                 .enableSkipView()
                 .entityBuilder()
                     .disableSerialVersionUID()
