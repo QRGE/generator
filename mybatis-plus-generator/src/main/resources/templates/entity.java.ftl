@@ -87,7 +87,7 @@ public class ${entity} {
 </#list>
 <#------------  END 字段循环遍历  ---------->
 
-    private ${entity} init() {
+    public ${entity} init() {
         isDel = 0;
         createTime = new Date();
         return this;
